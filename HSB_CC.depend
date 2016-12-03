@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1480734025 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<math.h>
+	<vector>
+	"../headers/lexer.h"
+
+1480733698 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
+	<iostream>
+	<string>
+	<vector>
+

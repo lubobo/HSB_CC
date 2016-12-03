@@ -1,0 +1,2 @@
+int   main (void) 
+a=3; b="  3asd";
