@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1480734025 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
+1480739137 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
 	<iostream>
 	<string>
 	<stdio.h>
@@ -7,8 +7,11 @@
 	<vector>
 	"../headers/lexer.h"
 
-1480733698 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
+1480739100 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
 	<iostream>
 	<string>
 	<vector>
+
+1480738082 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
+	<iostream>
 
