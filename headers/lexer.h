@@ -18,9 +18,8 @@ struct SYNBL  //符号表
     int cat; //0:函数。1：变量 3：常量
     int offset;
     int index;
-
 };
-extern  string Tag_Str[];
+extern string Tag_Str[];
 extern string keywords[k_w_len];//关键字表
 extern string typewords[t_w_len];
 extern vector<SYNBL> idwords;//字符表
@@ -28,8 +27,6 @@ extern vector<string> strwords;//常数表
 extern vector<string> mychar;
 extern vector<double> number;
 extern vector<SYNBL> temp;//变量表
-
-
 class Token
 {
     private:
@@ -50,15 +47,14 @@ class Token
         virtual int get_lexeme(){}
         virtual string get_lexeme_str(){}
         virtual string get_Char(){}
-        virtual string  get_var(){}
+        virtual string get_var(){}
 };
 class Num: public Token//整数和小数
 {
     private:
         int value;
-
     public:
-        Num(int t,int v ):Token(t),value(v){};
+        Num(int t,int v):Token(t),value(v){};
         int get_numindex()
         {
             return value;
@@ -68,9 +64,7 @@ class Num: public Token//整数和小数
             cout<<value<<" ";
             return number[value];
         }
-
 };
-
 class Word: public Token   //标识符、类型、关键字
 {
     private:
@@ -116,8 +110,6 @@ public:
     }
 
 };
-
-
 struct q   //四元式
 {
     string op;
@@ -135,9 +127,7 @@ int str2num(string x);
 int str2real(string x);
 int  get_tempindex();
 int lexer();
-
 extern vector<Token*> token_list;
-
 void startMath();
 bool start_E();
 bool start_F();

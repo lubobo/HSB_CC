@@ -5,7 +5,6 @@
 #include<vector>
 #include"../headers/lexer.h"
 using namespace std;
-
 struct route_node
 {
     char c;
@@ -29,8 +28,6 @@ string typewords[t_w_len]={"int","real","char","const"};
 vector<Token*> token_list;
 vector<SYNBL> temp;
 vector<double> number;
-
-
 void  auto_machine()
 {
     state[1].r_state=s1;
