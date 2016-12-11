@@ -1,2 +1,4 @@
-int   main (void) 
-a=3; b="  3asd";
+int main (void){
+  int a=3;
+  string b="3asd";
+}
