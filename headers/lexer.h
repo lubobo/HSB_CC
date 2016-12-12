@@ -4,6 +4,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<stack>
 #define k_w_len  10
 #define t_w_len 4
 using namespace std;
@@ -11,26 +12,30 @@ enum Tag
 {
     NUM=256,REAL,ID,AND,OR,EQ,NE,GE,LE,STR,CHAR,TYPE,KEY,ADD_A,ADD_E,MIN_M,MIN_E,MUL_E,DIV_E,IF,ELSE,FOR,WHILE,DO,BREAK,CONTINUE,RETURN
 };
-struct SYNBL  //ç¬¦å·è¡¨
+struct SYNBL                //·ûºÅ±í
 {
     string name;
-    int type;//0:int,1:real,2:char
-    int cat; //0:å‡½æ•°ã€‚1ï¼šå˜é‡ 3ï¼šå¸¸é‡
-    int offset;
-    int index;
+    int type;               //0:int,1:real,2:char
+    int cat;                //0:º¯Êı¡£1£º±äÁ¿ 3£º³£Á¿
+    int offset;             //Æ«ÒÆµØÖ·
+    int index;              // µ±×Ö·û±íµÄÀàĞÍÊÇ³£Á¿Ê±£¬offsetÎª-1£¬indexÎª1Ê±´ú±íÖ¸ÏòvectorÖĞµÄnumber,indexÎª2£¬Ö¸Ïòmychar
+    /*offset    index        º¬Òå
+     -1         1           Ö¸ÏòvectorÖĞµÄnumber
+     -1         2           Ö¸Ïòmychar
+     ÕıÊı       0           ±äÁ¿µÄÆ«ÒÆÁ¿    ´ıÀ©ÕÅ*/
 };
 extern string Tag_Str[];
-extern string keywords[k_w_len];//å…³é”®å­—è¡¨
+extern string keywords[k_w_len];    //¹Ø¼ü×Ö±í
 extern string typewords[t_w_len];
-extern vector<SYNBL> idwords;//å­—ç¬¦è¡¨
-extern vector<string> strwords;//å¸¸æ•°è¡¨
-extern vector<string> mychar;
-extern vector<double> number;
-extern vector<SYNBL> temp;//å˜é‡è¡¨
-class Token
+extern vector<SYNBL> idwords;       //×Ö·û±í
+extern vector<string> strwords;     //´æ·Å×Ö·û´®µÄ³£Á¿±í
+extern vector<string> mychar;       //´æ·Å×Ö·ûµÄ³£Á¿±í
+extern vector<double> number;       //´æ·ÅÕûÊıÓëĞ¡ÊıµÄ³£Á¿±í
+extern vector<SYNBL>  temp;         //±äÁ¿±í
+class Token                         //ËùÓĞtokenÀàĞÍµÄ¸¸Àà£¬µ¥¸ö×Ö·ûµÄtagÖµ¼ÈÊÇ±êºÅÖµÒ²ÊÇascllÂëÖµ
 {
     private:
-        int tag;
+        int tag;                    //±êºÅ ÓÃÀ´Çø·Ö½ç·û£¬³£Á¿£¬±êÊ¶·û£¬¹Ø¼ü×ÖµÈ
     public:
         Token(){}
         Token(int i)
@@ -49,26 +54,26 @@ class Token
         virtual string get_Char(){}
         virtual string get_var(){}
 };
-class Num: public Token//æ•´æ•°å’Œå°æ•°
+class Num: public Token             //  ÊÇÕûÊı£¬Ğ¡ÊıµÄtoken
 {
     private:
-        int value;
+        int value;                  //Ïàµ±ÓÚÖ¸Õë£¬ÓÃÀ´´ú±íÔÚnumberÊı×éÖĞµÄ¾ßÌåÎ»ÖÃ
     public:
-        Num(int t,int v):Token(t),value(v){};
+        Num(int t,int v ):Token(t),value(v){};
         int get_numindex()
         {
             return value;
         }
         double get_numvalue()
         {
-            cout<<value<<" ";
             return number[value];
         }
 };
-class Word: public Token   //æ ‡è¯†ç¬¦ã€ç±»å‹ã€å…³é”®å­—
+
+class Word: public Token            //±êÊ¶·û¡¢ÀàĞÍ¡¢¹Ø¼ü×Ö¡¢×Ö·û´®µÄtoken
 {
     private:
-        int lexeme;
+        int lexeme;                 //ÓÃÀ´´ú±íÔÚ¸÷¸öÊı×éÖĞµÄÎ»ÖÃ
     public:
         Word(int t,int v):Token(t),lexeme(v){};
         int get_lexeme()
@@ -83,10 +88,10 @@ class Word: public Token   //æ ‡è¯†ç¬¦ã€ç±»å‹ã€å…³é”®å­—
             else return strwords[lexeme];
         }
 };
-class Char: public Token
+class Char: public Token            //char ÀàĞÍtoken
 {
 private:
-    int value;
+    int value;                      //Ö¸Õë
 public:
     Char(int t,int v):Token(t),value(v){};
     int get_value()
@@ -98,36 +103,41 @@ public:
         return mychar[value];
     }
 };
-class temp_var:public Token
+class temp_var:public Token         //±äÁ¿ÀàĞÍµÄtoken
 {
 private:
-    int var;
+    int var;                        //Ö¸Õë
 public:
     temp_var(int t,int v):Token(t),var(v){};
     string  get_var()
     {
         return temp[var].name;
     }
-
 };
-struct q   //å››å…ƒå¼
+struct q                            //ËÄÔªÊ½
 {
     string op;
     Token* temp_1;
     Token* temp_2;
-    Token*  res;
+    Token* res;
 };
-int find_key(string x);
-int get_keyindex(string x);
+int find_key(string x);             //´Ê·¨·ÖÎöÊ±£¬µ±È·ÈÏÊ±Ò»´®×Ö·ûÊ±£¬Çø·Ö±êÊ¶·û¡¢ÀàĞÍ¡¢¹Ø¼ü×Ö¡¢×Ö·û´®£¬½¨Á¢token ²¢Ñ¹Èëtokenlist
+int get_keyindex(string x);         //ÅĞ¶ÏÊÇ·ñÊÇ¹Ø¼ü×Ö£¬ÊÇ·µ»ØÎ»ÖÃ£¬·ñÔò·µ»Ø-1£»
 int get_strindex(string x);
 int get_typeindex(string x);
 int get_idindex(string x);
 int get_charindex(string x);
 int str2num(string x);
 int str2real(string x);
-int  get_tempindex();
+int get_tempindex();                //½¨Á¢ÁÙÊ±±äÁ¿µÄtoken
 int lexer();
+
 extern vector<Token*> token_list;
+extern vector<q> QT;
+extern int c;                       //¼ÇÂ¼µ±Ç°µÄ¶Áµ½µÄTOKRN
+extern stack<Token*> sem;
+
+
 void startMath();
 bool start_E();
 bool start_F();

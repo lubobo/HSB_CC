@@ -198,7 +198,7 @@ int lexer()
     string int2string(int x);
     auto_machine();
     FILE *fp;
-    fp = fopen("1.txt", "r");
+    fp = fopen("test/2.txt", "r");
     char ch,temp_ch;
     int state=1,state_before;
     int line=1;
@@ -250,11 +250,11 @@ int lexer()
           if(code<=9)
           {
                string temp_string=int2string(code);
-               cout<<"<"<<temp_str<<","<<temp_string<<">"<<endl;
+               //cout<<"<"<<temp_str<<","<<temp_string<<">"<<endl;
           }
           else
           {
-              cout<<"<"<<temp_str<<","<<code<<">"<<endl;
+              //cout<<"<"<<temp_str<<","<<code<<">"<<endl;
           }
 
          if((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z'))
@@ -290,7 +290,7 @@ int lexer()
   int code0=state_to_code(state,temp_str);
   if(code0==-1)
   {
-      cout<<"No. "<<line<<"line"<<": "<<"error"<<endl;
+      //cout<<"No. "<<line<<"line"<<": "<<"error"<<endl;
       return 0;
 
   }
@@ -299,11 +299,11 @@ int lexer()
       if(code0<=9)
           {
                string temp_string=int2string(code0);
-               cout<<"<"<<temp_str<<","<<temp_string<<">"<<endl;
+               //cout<<"<"<<temp_str<<","<<temp_string<<">"<<endl;
           }
           else
           {
-              cout<<"<"<<temp_str<<","<<code0<<">"<<endl;
+              //cout<<"<"<<temp_str<<","<<code0<<">"<<endl;
           }
 
   }

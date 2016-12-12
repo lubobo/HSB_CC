@@ -36,6 +36,7 @@
 		<Unit filename="headers/lexer.h" />
 		<Unit filename="main/main.cpp" />
 		<Unit filename="src/functionAnalysis.cpp" />
+		<Unit filename="src/gra_analyze.cpp" />
 		<Unit filename="src/lexer.cpp" />
 		<Extensions>
 			<code_completion />

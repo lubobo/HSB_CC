@@ -1,4 +1,2 @@
-int main (void){
-  int a=3;
-  string b="3asd";
-}
+(Aa+B*(8.2/3*55)*15.2+152e-1)
+

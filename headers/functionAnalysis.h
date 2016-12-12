@@ -6,5 +6,5 @@
 #include <stdlib.h>
 using namespace std;
 extern int lexer();
-bool functionAnalysis();
+void functionAnalysis();
 #endif

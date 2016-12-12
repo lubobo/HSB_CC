@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1481459411 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
+1481533787 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
 	<iostream>
 	<string>
 	<stdio.h>
@@ -7,12 +7,13 @@
 	<vector>
 	"../headers/lexer.h"
 
-1481460655 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
+1481533025 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
 	<iostream>
 	<string>
 	<vector>
+	<stack>
 
-1480755206 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
+1481533548 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
 	<iostream>
 	"../headers/lexer.h"
 	"../headers/functionAnalysis.h"
@@ -25,13 +26,26 @@
 	<vector>
 	"../headers/lexer.h"
 
-1480776792 source:/home/lukbob/program/c++/HSB_CC/src/functionAnalysis.cpp
+1481536099 source:/home/lukbob/program/c++/HSB_CC/src/functionAnalysis.cpp
 	<iostream>
+	<stack>
 	"../headers/lexer.h"
 
-1480756233 /home/lukbob/program/c++/HSB_CC/headers/functionAnalysis.h
+1481533288 /home/lukbob/program/c++/HSB_CC/headers/functionAnalysis.h
 	<iostream>
 	<cstring>
 	<fstream>
 	<stdlib.h>
+
+1481533052 source:/home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
+	<iostream>
+	"../headers/lexer.h"
+	<stack>
+	<vector>
+
+1481533052 /home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
+	<iostream>
+	"../headers/lexer.h"
+	<stack>
+	<vector>
 

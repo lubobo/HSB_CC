@@ -3,10 +3,6 @@
 #include<stack>
 #include<vector>
 using namespace std;
-int c=0;
-vector<q> QT;
-stack<Token*> sem;
-int  log=0;
 int send_value(int x)
 {
     int temp;
@@ -44,7 +40,6 @@ int send_value(int x)
     }
     return temp;
 }
-
 void startMath()
 {
     if(start_E())
@@ -52,22 +47,14 @@ void startMath()
        if(c==token_list.size())
        {
             cout<<"success"<<endl;
-            /*vector<q>::iterator it0=QT.begin();
-            cout<<"************"<<"ËÄÔªÊ½"<<"***************"<<endl;
-                 for(it0=QT.begin();it0!=QT.end();it0++)
-               {
-                cout<<"("<<(*it0).op<<","<<(*it0).temp_1<<","<<(*it0).temp_2<<","<<(*it0).res<<")"<<endl;
-               }*/
-              q_out();
+            q_out();
         }
         else
         {
             cout<<"wrong1"<<endl;
         }
-
    }
    else
-
    cout<<"wrong"<<endl;
 }
 bool start_E()
@@ -90,7 +77,6 @@ bool start_E()
        }
      else
        return false;
-
  }
  return true;
 }
@@ -118,25 +104,15 @@ bool start_T()
 }
 bool  start_F()
 {
-
-    if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==0)//Èç¹ûÊÇÊý×Ö
+    if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==0)//å¦‚æžœæ˜¯æ•°å­—
     {
-
-
-            sem.push(token_list[c]);
-           c++;
-        /*else
-        {
-            sem.push(token_list[c]->get_realvalue_s());
-            c++;
-        }*/
-
+        sem.push(token_list[c]);
+        c++;
         return true;
-
     }
     else  if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==3)
     {
-         c++;
+        c++;
         if (!start_E())
         {
             return false;
@@ -163,7 +139,6 @@ return true;
 }
 bool start_A()
 {
-
     if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==5)
     {
          sem.push(token_list[c]);
@@ -185,12 +160,10 @@ bool start_B()
     if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==6)
     {
         c++;
-
         if(!start_E())
         {
             return false;
         }
-
         if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==7)
         {   c++;
             if(!act_2())
@@ -222,18 +195,17 @@ bool act(int temp)
         temp_q.op="/";
     if(!sem.empty())
     {
-      temp_q.temp_2=sem.top();
-     sem.pop();
+        temp_q.temp_2=sem.top();
+        sem.pop();
     if(sem.empty())
     {
         return false;
     }
-    temp_q.temp_1=sem.top();//tempµÄÀàÐÍÓÉÕ»ÀïµÄÔªËØÀàÐÍ¾ö¶¨
+    temp_q.temp_1=sem.top();//tempçš„ç±»åž‹ç”±æ ˆé‡Œçš„å…ƒç´ ç±»åž‹å†³å®š
     sem.pop();
     temp_q.res=new temp_var(-1,get_tempindex());
     sem.push(temp_q.res);
     QT.push_back(temp_q);
-    log++;
     return true;
     }
     else
@@ -241,23 +213,7 @@ bool act(int temp)
 }
 bool act_2()
 {
-     /*if(!sem.empty())
-     {
-    string temp_act=sem.top();
-    sem.pop();
-    if(sem.empty())
-    {
-        return false;
-    }
-    string temp_act2=sem.top();
-    sem.pop();
-    string new_arrary=temp_act2+"["+temp_act+"]";
-    sem.push(new_arrary);
     return true;
-     }
-     else*/
-        return true;
-
 }
 void q_out()
 {
