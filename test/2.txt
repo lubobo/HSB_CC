@@ -1,1 +1,3 @@
-int a=12
+int main(){
+  int y=0;
+}

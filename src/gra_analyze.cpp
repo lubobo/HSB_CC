@@ -66,7 +66,6 @@ bool start_E()
   while(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==1)
  {
           int temp=token_list[c]->get_tag();
-
           c++;
           if(start_T())
        {
