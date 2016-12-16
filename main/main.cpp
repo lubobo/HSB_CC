@@ -9,8 +9,9 @@ stack<Token*> sem;
 int main(){
     lexer();
     for(int i=0;i<token_list.size();i++){
-        cout<<token_list[i]->get_tag()<<endl;
+        cout<<token_list[i]->get_tag()<<";";
     }
+    cout<<endl;
     startMath();
     functionAnalysis();
     return 0;
