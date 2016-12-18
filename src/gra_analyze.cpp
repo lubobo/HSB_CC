@@ -2,7 +2,9 @@
 #include"../headers/lexer.h"
 #include<stack>
 #include<vector>
+#include<math.h>
 using namespace std;
+//stack<Token*> sem;
 int send_value(int x)
 {
     int temp;
@@ -40,25 +42,39 @@ int send_value(int x)
     }
     return temp;
 }
-void startMath()
+
+bool startMath()
 {
+
     if(start_E())
    {
-       if(c==token_list.size())
-       {
-            cout<<"success"<<endl;
-            q_out();
-        }
-        else
+      // if(c==token_list.size())
+     //  {
+            //cout<<"Exp_success"<<endl;
+            /*vector<q>::iterator it0=QT.begin();
+            cout<<"************"<<"ËÄÔªÊ½"<<"***************"<<endl;
+                 for(it0=QT.begin();it0!=QT.end();it0++)
+               {
+                cout<<"("<<(*it0).op<<","<<(*it0).temp_1<<","<<(*it0).temp_2<<","<<(*it0).res<<")"<<endl;
+               }*/
+
+        //}
+        /*else
         {
             cout<<"wrong1"<<endl;
-        }
+        }*/
+      return true;
    }
    else
-   cout<<"wrong"<<endl;
+   {
+     //cout<<"wrong"<<endl;
+     return false;
+   }
+
 }
 bool start_E()
 {
+    //cout<<"startMath1"<<endl;
    if(!start_T())
   {
    return false;
@@ -66,14 +82,13 @@ bool start_E()
   while(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==1)
  {
           int temp=token_list[c]->get_tag();
+
           c++;
-          if(start_T())
-       {
-         if(!act(temp))
-        {
-          return false;
+          if(start_T()){
+            if(!act(temp)){
+                return false;
+            }
         }
-       }
      else
        return false;
  }
@@ -81,6 +96,7 @@ bool start_E()
 }
 bool start_T()
 {
+    //cout<<"startMath2"<<endl;
     if(!start_F())
     {
        return false;
@@ -103,15 +119,22 @@ bool start_T()
 }
 bool  start_F()
 {
-    if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==0)//å¦‚æžœæ˜¯æ•°å­—
+    //cout<<"startMath3"<<endl;
+    if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==0)//Èç¹ûÊÇÊý×Ö
     {
-        sem.push(token_list[c]);
-        c++;
+           sem.push(token_list[c]);
+           c++;
+        /*else
+        {
+            sem.push(token_list[c]->get_realvalue_s());
+            c++;
+        }*/
+
         return true;
     }
     else  if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==3)
     {
-        c++;
+         c++;
         if (!start_E())
         {
             return false;
@@ -134,10 +157,11 @@ bool  start_F()
         }
 
     }
-return true;
+    return true;
 }
 bool start_A()
 {
+    //cout<<"startMath4"<<endl;
     if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==5)
     {
          sem.push(token_list[c]);
@@ -152,10 +176,10 @@ bool start_A()
     {
         return false;
     }
-
 }
 bool start_B()
 {
+    //cout<<"startMath5"<<endl;
     if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==6)
     {
         c++;
@@ -181,7 +205,7 @@ bool start_B()
         return true;
     }
 }
-bool act(int temp)
+bool act(int temp)                  //´æ´¢ËÄÔªÊ½
 {
     q temp_q;
     if(temp==43)
@@ -194,75 +218,94 @@ bool act(int temp)
         temp_q.op="/";
     if(!sem.empty())
     {
-        temp_q.temp_2=sem.top();
-        sem.pop();
+      temp_q.temp_2=sem.top();
+      sem.pop();
     if(sem.empty())
     {
         return false;
     }
-    temp_q.temp_1=sem.top();//tempçš„ç±»åž‹ç”±æ ˆé‡Œçš„å…ƒç´ ç±»åž‹å†³å®š
+    temp_q.temp_1=sem.top();//tempµÄÀàÐÍÓÉÕ»ÀïµÄÔªËØÀàÐÍ¾ö¶¨
     sem.pop();
-    temp_q.res=new temp_var(-1,get_tempindex());
+    int result=type_change(temp_q.temp_1,temp_q.temp_2);
+    temp_q.res=new temp_var(-1,get_tempindex(result));
     sem.push(temp_q.res);
     QT.push_back(temp_q);
     return true;
     }
-    else
+    else{
         return false;
+    }
 }
 bool act_2()
 {
+     /*if(!sem.empty())
+     {
+    string temp_act=sem.top();
+    sem.pop();
+    if(sem.empty())
+    {
+        return false;
+    }
+    string temp_act2=sem.top();
+    sem.pop();
+    string new_arrary=temp_act2+"["+temp_act+"]";
+    sem.push(new_arrary);
     return true;
+     }
+     else*/
+        return true;
+
 }
-void q_out()
+void q_out()                    //ÏÔÊ¾ËÄÔªÊ½
 {
     for(int i=0;i<QT.size();i++)
     {
         cout<<"("<<QT[i].op<<",";
-        if(QT[i].temp_1->get_tag()==-1)
-        {
-            cout<<QT[i].temp_1->get_var()<<",";
+        if(QT[i].temp_1==NULL){
+            cout<<"_"<<",";
+        }else{
+            if(QT[i].temp_1->get_tag()==-1){
+                cout<<QT[i].temp_1->get_var()<<",";
+            }
+            else if(QT[i].temp_1->get_tag()==ID){
+                cout<<QT[i].temp_1->get_lexeme_str()<<",";
+            }
+            else{
+                cout<<QT[i].temp_1->get_numvalue()<<",";
+            }
         }
-        else if(QT[i].temp_1->get_tag()==ID)
-        {
-            cout<<QT[i].temp_1->get_lexeme_str()<<",";
+         if(QT[i].temp_2==NULL){
+            cout<<"_"<<",";
         }
-        else
-        {
-            cout<<QT[i].temp_1->get_numvalue()<<",";
+        else{
+            if(QT[i].temp_2->get_tag()==-1){
+                cout<<QT[i].temp_2->get_var()<<",";
+            }
+            else if(QT[i].temp_2->get_tag()==ID){
+                cout<<QT[i].temp_2->get_lexeme_str()<<",";
+            }
+            else{
+            cout<<QT[i].temp_2->get_numvalue()<<",";
+            }
         }
-
-        if(QT[i].temp_2->get_tag()==-1)
-        {
-            cout<<QT[i].temp_2->get_var()<<",";
+        if(QT[i].res==NULL){
+            cout<<"_"<<")";
         }
-        else if(QT[i].temp_2->get_tag()==ID)
-        {
-            cout<<QT[i].temp_2->get_lexeme_str()<<",";
-        }
-        else
-        {
-            Token*p=QT[i].temp_2;
-            cout<<p->get_numvalue()<<",";
-        }
-
-        if(QT[i].res->get_tag()==-1)
-        {
-            cout<<QT[i].res->get_var()<<")";
-        }
-        else if(QT[i].res->get_tag()==ID)
-        {
-            cout<<QT[i].res->get_lexeme_str()<<")";
-        }
-        else
-        {
-            cout<<QT[i].res->get_numvalue()<<")";
+        else{
+            if(QT[i].res->get_tag()==-1){
+                cout<<QT[i].res->get_var()<<")";
+            }
+            else if(QT[i].res->get_tag()==ID){
+                cout<<QT[i].res->get_lexeme_str()<<")";
+            }
+            else{
+                cout<<QT[i].res->get_numvalue()<<")";
+            }
         }
         cout<<endl;
-
     }
 }
-int  get_tempindex()
+int  get_tempindex(int x)                   //´æ·ûºÅ±í
 {
     string  temp_v="t",temp_a;
     int i=temp.size();
@@ -281,6 +324,39 @@ int  get_tempindex()
     }
      SYNBL s;
      s.name=temp_v;
+     s.cat=4;         //ÁÙÊ±±äÁ¿;
+     s.index=0;       //indexÃ»ÓÃ
+     s.type=x;        //typÀàÐÍ
      temp.push_back(s);
      return temp.size()-1;
+}
+int type_change(Token* t1,Token* t2)
+{
+   int type_1,type_2,type;
+   if(t1->get_tag()==REAL)
+   {
+       type_1=3;      //ÊµÊýÀàÐÍ
+   }
+   else if(t1->get_tag()==NUM)
+   {
+       type_1=2;//  ÕûÊýÀàÐÍ
+   }
+   else if(t1->get_tag()==ID)
+   {
+       type_1=idwords[t1->get_lexeme()].type;    //±êÊ¶·û
+   }
+   if(t2->get_tag()==REAL)
+   {
+       type_2=3;      //ÊµÊýÀàÐÍ
+   }
+   else if(t2->get_tag()==NUM)
+   {
+       type_2=2;//  ÕûÊýÀàÐÍ
+   }
+   else if(t2->get_tag()==ID)
+   {
+       type_2=idwords[t2->get_lexeme()].type;    //±êÊ¶·û
+   }
+   type=max(type_1,type_2);
+   return type;
 }

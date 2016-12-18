@@ -1,3 +1,5 @@
-int a(int a){
-  int b=1+2;
+int main(int a=1,int b=2){
+  while(2>1){
+     b=6;
+  }
 }

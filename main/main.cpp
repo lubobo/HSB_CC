@@ -12,7 +12,7 @@ int main(){
         cout<<token_list[i]->get_tag()<<";";
     }
     cout<<endl;
-    startMath();
+    //startMath();
     functionAnalysis();
     return 0;
 }

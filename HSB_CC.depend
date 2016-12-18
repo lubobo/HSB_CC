@@ -7,13 +7,13 @@
 	<vector>
 	"../headers/lexer.h"
 
-1481533025 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
+1482061380 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
 	<iostream>
 	<string>
 	<vector>
 	<stack>
 
-1481811573 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
+1482048899 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
 	<iostream>
 	"../headers/lexer.h"
 	"../headers/functionAnalysis.h"
@@ -26,7 +26,7 @@
 	<vector>
 	"../headers/lexer.h"
 
-1481891953 source:/home/lukbob/program/c++/HSB_CC/src/functionAnalysis.cpp
+1482074773 source:/home/lukbob/program/c++/HSB_CC/src/functionAnalysis.cpp
 	<iostream>
 	<stack>
 	"../headers/lexer.h"
@@ -37,15 +37,32 @@
 	<fstream>
 	<stdlib.h>
 
-1481677558 source:/home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
+1482068296 source:/home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
 	<iostream>
 	"../headers/lexer.h"
 	<stack>
 	<vector>
+	<math.h>
 
 1481533052 /home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
 	<iostream>
 	"../headers/lexer.h"
 	<stack>
 	<vector>
+
+1482074431 source:/home/lukbob/program/c++/HSB_CC/src/logic_expression.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482074431 source:/home/lukbob/program/c++/HSB_CC/src/while.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482074431 source:/home/lukbob/program/c++/HSB_CC/src/if.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482045607 source:/home/lukbob/program/c++/HSB_CC/src/suffix.cpp
+	<iostream>
+	"../headers/lexer.h"
 

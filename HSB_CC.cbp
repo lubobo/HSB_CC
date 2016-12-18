@@ -37,7 +37,11 @@
 		<Unit filename="main/main.cpp" />
 		<Unit filename="src/functionAnalysis.cpp" />
 		<Unit filename="src/gra_analyze.cpp" />
+		<Unit filename="src/if.cpp" />
 		<Unit filename="src/lexer.cpp" />
+		<Unit filename="src/logic_expression.cpp" />
+		<Unit filename="src/suffix.cpp" />
+		<Unit filename="src/while.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

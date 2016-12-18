@@ -12,7 +12,7 @@ void functionAnalysis(){        //函数语义分析入口
             cout<<"shit"<<endl;
         }
     }else{
-        //cout<<token_list[c]->get_tag()<<endl;
+        cout<<token_list[c]->get_tag()<<endl;
         cout<<"worning"<<endl;
     }
 }
@@ -23,7 +23,7 @@ bool startFunAssi(){             //函数定义模块
     if(token_list[c]->get_tag()==TYPE){
         cout<<"TYPE:"<<token_list[c]->get_tag()<<endl;
         nextW();
-        if(token_list[c]->get_tag()==ID){
+        if(token_list[c]->get_tag()==ID||token_list[c]->get_tag()==KEY){
             cout<<"ID:"<<token_list[c]->get_tag()<<endl;
             nextW();
             if(token_list[c]->get_tag()=='('){
@@ -40,7 +40,7 @@ bool startFunAssi(){             //函数定义模块
                         if(token_list[c]->get_tag()=='}'){
                             cout<<"}"<<token_list[c]->get_tag()<<endl;
                             //nextW();
-                            return true;
+                            return 1;
                         }else{
                             return false;
                         }
@@ -60,17 +60,17 @@ bool startFunAssi(){             //函数定义模块
         return false;
     }
 }
-
 /*********************************参数声明模块****************************/
 bool startParaAssign(){         //参数声明模块
     bool startState();
     bool startStateClo();
     void nextW();
     cout<<"参数"<<token_list[c]->get_tag()<<endl;
-    if(token_list[c]->get_tag()==41){
-        return 1;
-    }else if(startState()&&token_list[c]->get_tag()!=41){           //需判断startState
+    if(token_list[c]->get_tag()!=41){
+        startState();
         startStateClo();
+    }else{
+        return 1;
     }
 }
 bool startState(){              //声明模块
@@ -88,13 +88,10 @@ bool startState(){              //声明模块
     }else if(token_list[c]->get_tag()==TYPE){
         nextW();
         startValue2();
-    }else{
-        //nextW();
     }
 }
 bool startValue1(){             //变量分析X1模块
     bool startRight();
-    //bool startMath();
     void GEQ1();
     void nextW();
     cout<<"X1："<<token_list[c]->get_tag()<<endl;
@@ -105,8 +102,7 @@ bool startValue1(){             //变量分析X1模块
             nextW();
             sem.push(token_list[c-2]);
             startRight();
-            GEQ1();             //'四元式=产生式'
-            nextW();
+            GEQ1();
             q_out();
         }
     }
@@ -114,7 +110,6 @@ bool startValue1(){             //变量分析X1模块
 bool startValue2(){             //变量分析X2模块
     void nextW();
     bool startRight();
-    //bool startMath();
     void GEQ1();
     cout<<"X2："<<token_list[c]->get_tag()<<endl;
     if(token_list[c]->get_tag()==ID){
@@ -125,16 +120,15 @@ bool startValue2(){             //变量分析X2模块
             sem.push(token_list[c-2]);
             startRight();
             GEQ1();
-            nextW();
             q_out();
         }
     }else{
-        //nextW();
         return 1;
     }
 }
 bool startRight(){             //右值模块
     bool startMath();
+    void nextW();
     cout<<"右值"<<token_list[c]->get_tag()<<endl;
     startMath();
 }
@@ -146,24 +140,22 @@ bool startStateClo(){           //声明闭包模块
         nextW();
         if(startState()){
             if(startStateClo()){
-                return true;
-            }else{
-                return false;
+                return 1;
             }
         }
     }else{
-        nextW();
-        return true;
+        return 1;
     }
 }
-
 /*********************************函数块模块******************************/
 bool startFunBlo(){                //函数块模块
     bool startStates();
     bool startFunBC();
     cout<<"函数块"<<token_list[c]->get_tag()<<endl;
     startStates();
+    cout<<"jiba"<<endl;
     startFunBC();
+    cout<<"gannima"<<endl;
 }
 bool startStates(){                //声明语句闭包模块
     bool startValue1();
@@ -190,7 +182,7 @@ bool startStates(){                //声明语句闭包模块
             nextW();
         }
     }else{
-        nextW();
+        return 1;
     }
 }
 bool startState1(){                //声明语句闭包1模块
@@ -200,9 +192,7 @@ bool startState1(){                //声明语句闭包1模块
     if(token_list[c]->get_tag()==','){
         nextW();
         startValue1();
-        //return true;
     }else{
-        //nextW();
         return 1;
     }
 }
@@ -213,32 +203,41 @@ bool startState2(){                //声明语句闭包2模块
     if(token_list[c]->get_tag()==','){
         nextW();
         startValue2();
-        //return true;
     }else{
-        //nextW();
         return 1;
     }
 }
 bool startFunBC(){                 //函数块闭包模块
     bool startAssiFun();
-    bool startFor();
+    bool startWhile();
     bool startIf();
-    bool startReturn();
     void nextW();
-    cout<<"函数块闭包"<<token_list[c]->get_tag()<<endl;
-    if(startAssiFun()){            //需判断赋值函数
-        startFunBC();
-        nextW();
-    }else{
-        //nextW();
+    cout<<"函数块闭包"<<c<<":"<<token_list[c]->get_tag()<<endl;
+    if(token_list[c]->get_tag()==ID){
+        startAssiFun();
+        cout<<"shit0"<<endl;
+        if(startFunBC()){
+            return 1;
+        }
+    }
+    else if(token_list[c]->get_lexeme_str()=="while"){
+        startWhile();
+        cout<<"shit1"<<endl;
+        if(startFunBC()){
+            return 1;
+        }
+    }
+    else if(token_list[c]->get_lexeme_str()=="if"){
+        startIf();
+        cout<<"shit2"<<endl;
+        if(startFunBC()){
+            return 1;
+        }
+    }
+    else {
+        cout<<"rininainai"<<endl;
         return 1;
-    }/*else if(startFor()){
-        startFunBC();
-    }else if(startIf()){
-        startFunBC();
-    }else if(startReturn()){
-        startFunBC();
-    }*/
+    }
 }
 bool startAssiFun(){                //赋值函数模块
     bool startAssi();
@@ -247,9 +246,6 @@ bool startAssiFun(){                //赋值函数模块
     if(token_list[c]->get_tag()==ID){
         nextW();
         startAssi();                //需判断赋值或函数调用模块
-        if(token_list[c]->get_tag()=='='){
-            startAssi();
-        }
     }
 }
 bool startAssi(){                   //赋值函数调用模块
@@ -263,15 +259,12 @@ bool startAssi(){                   //赋值函数调用模块
         sem.push(token_list[c-2]);
         startRight();
         GEQ1();
-        nextW();
-        if(token_list[c+1]->get_tag()==';'){
+        q_out();
+        cout<<token_list[c]->get_tag()<<endl;
+        if(token_list[c]->get_tag()==';'){
             nextW();
-            return true;
-        }else{
-            return false;
+            return 1;
         }
-    }else{
-        return false;
     }
 }
 void nextW(){                       //取下一值模块
@@ -280,10 +273,10 @@ void nextW(){                       //取下一值模块
 void GEQ1(){
     //cout<<sem.top()->get_tag()<<endl;
     Token *n=sem.top();
-    cout<<sem.top()->get_tag()<<endl;
+    //cout<<sem.top()->get_tag()<<endl;
     sem.pop();
     Token *m=sem.top();
-    cout<<sem.top()->get_tag()<<endl;
+    //cout<<sem.top()->get_tag()<<endl;
     sem.pop();
     //cout<<"("<<"="<<","<<n->get_tag()<<","<<"_"<<","<<m->get_tag()<<")"<<endl;
     //q_out();
@@ -292,7 +285,7 @@ void GEQ1(){
     fuck.op="=";
     fuck.temp_1=n;
     fuck.temp_2=m;
-    fuck.res=new temp_var(-1,get_tempindex());
+    fuck.res=new temp_var(-1,get_tempindex(type_change(m,n)));
     sem.push(fuck.res);
     QT.push_back(fuck);
     /***************符号表存储***************/
