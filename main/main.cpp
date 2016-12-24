@@ -1,6 +1,7 @@
 #include<iostream>
 #include"../headers/lexer.h"
 #include"../headers/functionAnalysis.h"
+#include"../headers/objCode.h"
 using namespace std;
 extern int lexer();
 int c=0;
@@ -15,19 +16,26 @@ int main(){
         cout<<token_list[i]->get_tag()<<";";
     }
     cout<<endl;*/
-    //startMath();
-
-   functionAnalysis();
-
-     for(int i=0;i<idwords.size();i++)
-    {
-        cout<<"<<"<<"Ãû³Æ£º"<<idwords[i].name<<","<<"ÀàÐÍ1(0.º¯Êý 1.ÁÙÊ±±äÁ¿ 2.±äÁ¿3.³£Á¿)£º "<<idwords[i].cat<<"ÀàÐÍ2(0.bool 1.char 2.int 3.real)£º "<<","<<idwords[i].type<<","<<" Êý¾Ý¶ÎÆ«ÒÆÁ¿£º"<<idwords[i].offset<<","<<"³£Á¿Ê±ÓÃµ½µÄÖ¸Õë£º"<<idwords[i].index<<">>"<<endl;
+    functionAnalysis();
+    cout<<"***************ç¬¦å·è¡¨***************"<<endl;
+    for(int i=0;i<idwords.size();i++){
+        cout<<"åç§°ï¼š"<<idwords[i].name<<endl;
+        cout<<"(0.å‡½æ•° 1.ä¸´æ—¶å˜é‡ 2.å˜é‡3.å¸¸é‡):"<<idwords[i].cat<<endl;
+        cout<<"(0.bool 1.char 2.int 3.real):"<<idwords[i].type<<endl;
+        cout<<"æ•°æ®æ®µåç§»é‡:"<<idwords[i].offset<<endl;
+        cout<<"å¸¸é‡æ—¶ç”¨åˆ°çš„æŒ‡é’ˆ:"<<idwords[i].index<<endl;
+        cout<<endl;
     }
-    cout<<"/**************************************************************ÁÙÊ±±äÁ¿·ûºÅ±í******************************************************************/"<<endl;
-   for(int i=0;i<temp.size();i++)
-   {
-       cout<<"<<"<<"Ãû³Æ£º"<<temp[i].name<<","<<"ÀàÐÍ1(0.º¯Êý 1.ÁÙÊ±±äÁ¿ 2.±äÁ¿3.³£Á¿)£º "<<temp[i].cat<<","<<"ÀàÐÍ2(0.bool 1.char 2.int 3.real)£º "<<temp[i].type<<","<<" Êý¾Ý¶ÎÆ«ÒÆÁ¿£º"<<temp[i].offset<<","<<"³£Á¿Ê±ÓÃµ½µÄÖ¸Õë£º"<<temp[i].index<<">>"<<endl;
-   }
+    cout<<"*************ä¸´æ—¶å˜é‡ç¬¦å·è¡¨***************"<<endl;
+    for(int i=0;i<temp.size();i++){
+       cout<<"åç§°:"<<temp[i].name<<endl;
+       cout<<"(0.å‡½æ•° 1.ä¸´æ—¶å˜é‡ 2.å˜é‡3.å¸¸é‡):"<<temp[i].cat<<endl;
+       cout<<"(0.bool 1.char 2.int 3.real):"<<temp[i].type<<endl;
+       cout<<" æ•°æ®æ®µåç§»é‡:"<<temp[i].offset<<endl;
+       cout<<"å¸¸é‡æ—¶ç”¨åˆ°çš„æŒ‡é’ˆ:"<<temp[i].index<<endl;
+       cout<<endl;
+    }
+    cout<<"******************åŽç«¯********************"<<endl;
+    createObj();
     return 0;
-
 }

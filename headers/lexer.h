@@ -34,11 +34,7 @@ extern vector<string> mychar;//´æ·Å×Ö·ûµÄ³£Á¿±í
 extern vector<double> number;//´æ·ÅÕûÊýÓëÐ¡ÊýµÄ³£Á¿±í
 extern vector<SYNBL> temp;//±äÁ¿±í
 extern int type_size[4];
-extern  bool grammer_error;
-
-
-
-
+extern bool grammer_error;
 class Token     //ËùÓÐtokenÀàÐÍµÄ¸¸Àà£¬µ¥¸ö×Ö·ûµÄtagÖµ¼ÈÊÇ±êºÅÖµÒ²ÊÇascllÂëÖµ
 {
     private:

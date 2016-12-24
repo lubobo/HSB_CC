@@ -404,7 +404,6 @@ bool find_const(Token *t)
         int i;
         for(i=env.size()-1;i>=0;i--)
         {
-
             int  serach_res=env[i]->serach_const(t);
 
             if(serach_res!=0)
@@ -414,6 +413,3 @@ bool find_const(Token *t)
         }
         return false;
 }
-
-
-

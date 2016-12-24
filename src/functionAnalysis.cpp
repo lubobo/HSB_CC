@@ -22,8 +22,7 @@ void startFunAssi(){             //函数定义模块
     void nextW();
     void startParaAssign();
     void startFunBlo();
-    if(grammer_error&&token_list[c]->get_tag()==TYPE){
-
+    if(grammer_error&&token_list[c]->get_tag()==TYPE||token_list[c]->get_tag()==KEY){
         nextW();
         if(grammer_error&&token_list[c]->get_tag()==ID||token_list[c]->get_tag()==KEY){
             SYNBL s;

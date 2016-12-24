@@ -172,12 +172,13 @@
 	<iostream>
 	"../headers/lexer.h"
 
-1482551527 source:d:\hsb_cc\main\main.cpp
+1482592468 source:d:\hsb_cc\main\main.cpp
 	<iostream>
 	"../headers/lexer.h"
 	"../headers/functionAnalysis.h"
+	"../headers/objCode.h"
 
-1482550317 d:\hsb_cc\headers\lexer.h
+1482579531 d:\hsb_cc\headers\lexer.h
 	<iostream>
 	<string>
 	<vector>
@@ -189,12 +190,12 @@
 	<fstream>
 	<stdlib.h>
 
-1482550422 source:d:\hsb_cc\src\functionanalysis.cpp
+1482591271 source:d:\hsb_cc\src\functionanalysis.cpp
 	<iostream>
 	<stack>
 	"../headers/lexer.h"
 
-1482552100 source:d:\hsb_cc\src\gra_analyze.cpp
+1482558711 source:d:\hsb_cc\src\gra_analyze.cpp
 	<iostream>
 	"../headers/lexer.h"
 	<stack>
@@ -224,4 +225,17 @@
 1482421855 source:d:\hsb_cc\src\while.cpp
 	<iostream>
 	"../headers/lexer.h"
+
+1482595765 d:\hsb_cc\headers\objcode.h
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	<stack>
+
+1482596855 source:d:\hsb_cc\src\objcode.cpp
+	<fstream>
+	<iostream>
+	"../headers/lexer.h"
+	"../headers/objCode.h"
 

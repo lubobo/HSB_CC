@@ -1,12 +1,10 @@
-int  main ()
-{
-
-   int i=5;
+void  main (){
    int a=1;
-   while(i>0)
-{
-    a=a*i;
-    i=i-1;    
-}
- 
+   int b=2;
+   int e=3;
+   int f=4;
+   int g=5;
+   int h=0;
+   a=a+b+e;
+   b=a-b-e;
 }
