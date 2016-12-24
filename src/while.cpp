@@ -1,64 +1,68 @@
 #include<iostream>
 #include"../headers/lexer.h"
 using namespace std;
-bool startWhile()
+void startWhile()
 {
-    bool startFunBlo();
-    //cout<<"while"<<token_list[c]->get_tag()<<endl;
-    if(c<token_list.size())   //ÅÐ¶ÏÊÇ²»ÊÇÔ½½ç
+
+    //cout<<token_list[c]->get_tag()<<endl;
+    if(c<token_list.size())   //Ã…ÃÂ¶ÃÃŠÃ‡Â²Â»ÃŠÃ‡Ã”Â½Â½Ã§
     {
+
+
          int temp=token_list[c]->get_tag();
-         //cout<<token_list[c]->get_tag()<<endl;
+        // cout<<token_list[c]->get_tag()<<endl;
          if(temp==KEY&&token_list[c]->get_lexeme_str()=="while")//while
          {
 
-             c++;
-             if(!act_while_wh())//¶¯×÷Ò»
+              c++;
+             if(!act_while_wh())//Â¶Â¯Ã—Ã·Ã’Â»
              {
 
-                 return false;
+                 grammer_error=false;
              }
 
-                if(c<token_list.size()&&token_list[c]->get_tag()==40)//×óÀ¨ºÅ
+                if(c<token_list.size()&&token_list[c]->get_tag()==40)//Ã—Ã³Ã€Â¨ÂºÃ…
                 {
                    c++;
                    if(startLogic())
                    {
 
-                       if(c<token_list.size()&&token_list[c]->get_tag()==41)//ÓÒÀ¨ºÅ
+                       if(c<token_list.size()&&token_list[c]->get_tag()==41)//Ã“Ã’Ã€Â¨ÂºÃ…
                        {
                            c++;
-                           if(!act_while_do())//¶¯×÷¶þ
+                           if(!act_while_do())//Â¶Â¯Ã—Ã·Â¶Ã¾
                            {
-                               return false;
+                               grammer_error=false;
                            }
-                           if(c<token_list.size()&&token_list[c]->get_tag()=='{') //×óÃæµÄ´óÀ¨ºÅ
+                           if(c<token_list.size()&&token_list[c]->get_tag()=='{') //Ã—Ã³ÃƒÃ¦ÂµÃ„Â´Ã³Ã€Â¨ÂºÃ…
                            {
+                               env.push_back(new Env(idwords.size()));
                                c++;
-                               if(startFunBlo())
+                               startFunBlo();
+                               if(grammer_error)
                                {
-                                   if(c<token_list.size()&&token_list[c]->get_tag()=='}')//ÓÒÃæµÄ´óÀ¨ºÅ
+                                   if(c<token_list.size()&&token_list[c]->get_tag()=='}')//Ã“Ã’ÃƒÃ¦ÂµÃ„Â´Ã³Ã€Â¨ÂºÃ…
                                    {
                                        c++;
                                        if(!act_while_we())
                                        {
-                                           return false;
+                                           grammer_error=false;
                                        }
-                                       return true;
+                                     env.pop_back();
                                    }
                                    else
                                    {
                                        cout<<"WHILE_error1"<<endl;
-                                        return false;
+                                        grammer_error=false;
                                    }
                                }
                                else
-                                return false;
+                                grammer_error=false;
                            }
                            else
                            {
                             cout<<"WHILE_error2"<<endl;
-                            return false;
+                           grammer_error=false;
                            }
 
 
@@ -66,28 +70,28 @@ bool startWhile()
                        else
                         {
                             cout<<"WHILE_error3"<<endl;
-                            return false;
+                            grammer_error=false;
                         }
                    }
                    else
-                    return false;
+                    grammer_error=false;
                 }
                 else
                 {
                     cout<<"WHILE_error4"<<endl;
-                    return false;
+                    grammer_error=false;
                 }
          }
          else
          {
              cout<<"WHILE_error5"<<endl;
-             return false;
+             grammer_error=false;
          }
     }
     else
     {
        cout<<"WHILE_error6"<<endl;
-       return false;
+     grammer_error=false;
     }
 }
 bool act_while_wh()

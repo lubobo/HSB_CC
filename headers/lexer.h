@@ -7,35 +7,42 @@
 #define k_w_len  10
 #define t_w_len 5
 using namespace std;
+
 enum Tag
 {
-    NUM=256,REAL,ID,AND,OR,EQ,NE,GE,LE,STR,CHAR,TYPE,KEY,ADD_A,ADD_E,MIN_M,MIN_E,MUL_E,DIV_E,IF,ELSE,FOR,WHILE,DO,BREAK,CONTINUE,RETURN
+    NUM=256,REAL,ID,AND,OR,EQ,NE,GE,LE,STR,CHAR,TYPE,KEY,ADD_A,ADD_E,MIN_M,MIN_E,MUL_E,DIV_E,ELSE,FOR,WHILE,DO,BREAK,CONTINUE,RETURN
 };
-struct SYNBL  //·ûºÅ±í
+struct SYNBL  //Â·Ã»ÂºÃ…Â±Ã­
 {
     string name;
-    int type;//0:bool,1:char,2:int,3:real
-    int cat; //0:º¯Êı¡£1£º±äÁ¿ 3£º³£Á¿ 4:ÁÙÊ±±äÁ¿
-    int offset;//Æ«ÒÆµØÖ·
-    int index;// µ±×Ö·û±íµÄÀàĞÍÊÇ³£Á¿Ê±£¬offsetÎª-1£¬indexÎª1Ê±´ú±íÖ¸ÏòvectorÖĞµÄnumber,indexÎª2£¬Ö¸Ïòmychar
-    /*offset    index        º¬Òå
-     -1         1           Ö¸ÏòvectorÖĞµÄnumber
-     -1         2           Ö¸Ïòmychar
-     ÕıÊı       0           ±äÁ¿µÄÆ«ÒÆÁ¿    ´ıÀ©ÕÅ*/
+    int type=-1;//0:bool,1:char,2:int,3:real
+    int cat=-1; //0:ÂºÂ¯ÃŠÃ½Â¡Â£1Â£ÂºÂ±Ã¤ÃÂ¿ 3Â£ÂºÂ³Â£ÃÂ¿ 4:ÃÃ™ÃŠÂ±Â±Ã¤ÃÂ¿
+    int offset=0;//Ã†Â«Ã’Ã†ÂµÃ˜Ã–Â·
+    int index=-1;// ÂµÂ±Ã—Ã–Â·Ã»Â±Ã­ÂµÃ„Ã€Ã ÃÃÃŠÃ‡Â³Â£ÃÂ¿ÃŠÂ±Â£Â¬offsetÃÂª-1Â£Â¬indexÃÂª1ÃŠÂ±Â´ÃºÂ±Ã­Ã–Â¸ÃÃ²vectorÃ–ÃÂµÃ„number,indexÃÂª2Â£Â¬Ã–Â¸ÃÃ²mychar
+    /*offset    index        ÂºÂ¬Ã’Ã¥
+     -1         1           Ã–Â¸ÃÃ²vectorÃ–ÃÂµÃ„number
+     -1         2           Ã–Â¸ÃÃ²mychar
+     Ã•Ã½ÃŠÃ½       0           Â±Ã¤ÃÂ¿ÂµÃ„Ã†Â«Ã’Ã†ÃÂ¿    Â´Ã½Ã€Â©Ã•Ã…*/
 
 };
 extern string Tag_Str[];
-extern string keywords[k_w_len];//¹Ø¼ü×Ö±í
+extern string keywords[k_w_len];//Â¹Ã˜Â¼Ã¼Ã—Ã–Â±Ã­
 extern string typewords[t_w_len];
-extern vector<SYNBL> idwords;//×Ö·û±í
-extern vector<string> strwords;//´æ·Å×Ö·û´®µÄ³£Á¿±í
-extern vector<string> mychar;//´æ·Å×Ö·ûµÄ³£Á¿±í
-extern vector<double> number;//´æ·ÅÕûÊıÓëĞ¡ÊıµÄ³£Á¿±í
-extern vector<SYNBL> temp;//±äÁ¿±í
-class Token     //ËùÓĞtokenÀàĞÍµÄ¸¸Àà£¬µ¥¸ö×Ö·ûµÄtagÖµ¼ÈÊÇ±êºÅÖµÒ²ÊÇascllÂëÖµ
+extern vector<SYNBL> idwords;//Ã—Ã–Â·Ã»Â±Ã­
+extern vector<string> strwords;//Â´Ã¦Â·Ã…Ã—Ã–Â·Ã»Â´Â®ÂµÃ„Â³Â£ÃÂ¿Â±Ã­
+extern vector<string> mychar;//Â´Ã¦Â·Ã…Ã—Ã–Â·Ã»ÂµÃ„Â³Â£ÃÂ¿Â±Ã­
+extern vector<double> number;//Â´Ã¦Â·Ã…Ã•Ã»ÃŠÃ½Ã“Ã«ÃÂ¡ÃŠÃ½ÂµÃ„Â³Â£ÃÂ¿Â±Ã­
+extern vector<SYNBL> temp;//Â±Ã¤ÃÂ¿Â±Ã­
+extern int type_size[4];
+extern  bool grammer_error;
+
+
+
+
+class Token     //Ã‹Ã¹Ã“ÃtokenÃ€Ã ÃÃÂµÃ„Â¸Â¸Ã€Ã Â£Â¬ÂµÂ¥Â¸Ã¶Ã—Ã–Â·Ã»ÂµÃ„tagÃ–ÂµÂ¼ÃˆÃŠÃ‡Â±ÃªÂºÃ…Ã–ÂµÃ’Â²ÃŠÃ‡ascllÃ‚Ã«Ã–Âµ
 {
     private:
-        int tag;  //±êºÅ ÓÃÀ´Çø·Ö½ç·û£¬³£Á¿£¬±êÊ¶·û£¬¹Ø¼ü×ÖµÈ
+        int tag;  //Â±ÃªÂºÃ… Ã“ÃƒÃ€Â´Ã‡Ã¸Â·Ã–Â½Ã§Â·Ã»Â£Â¬Â³Â£ÃÂ¿Â£Â¬Â±ÃªÃŠÂ¶Â·Ã»Â£Â¬Â¹Ã˜Â¼Ã¼Ã—Ã–ÂµÃˆ
     public:
         Token(){}
         Token(int i)
@@ -53,11 +60,13 @@ class Token     //ËùÓĞtokenÀàĞÍµÄ¸¸Àà£¬µ¥¸ö×Ö·ûµÄtagÖµ¼ÈÊÇ±êºÅÖµÒ²ÊÇascllÂëÖµ
         virtual string get_lexeme_str(){}
         virtual string get_Char(){}
         virtual string  get_var(){}
+        virtual int get_var_value(){}
+        virtual void set_lexeme(int x) {}
 };
-class Num: public Token//  ÊÇÕûÊı£¬Ğ¡ÊıµÄtoken
+class Num: public Token//  ÃŠÃ‡Ã•Ã»ÃŠÃ½Â£Â¬ÃÂ¡ÃŠÃ½ÂµÃ„token
 {
     private:
-        int value;//Ïàµ±ÓÚÖ¸Õë£¬ÓÃÀ´´ú±íÔÚnumberÊı×éÖĞµÄ¾ßÌåÎ»ÖÃ
+        int value;//ÃÃ ÂµÂ±Ã“ÃšÃ–Â¸Ã•Ã«Â£Â¬Ã“ÃƒÃ€Â´Â´ÃºÂ±Ã­Ã”ÃšnumberÃŠÃ½Ã—Ã©Ã–ÃÂµÃ„Â¾ÃŸÃŒÃ¥ÃÂ»Ã–Ãƒ
     public:
         Num(int t,int v ):Token(t),value(v){};
         int get_numindex()
@@ -70,28 +79,34 @@ class Num: public Token//  ÊÇÕûÊı£¬Ğ¡ÊıµÄtoken
         }
 
 };
-class Word: public Token   //±êÊ¶·û¡¢ÀàĞÍ¡¢¹Ø¼ü×Ö¡¢×Ö·û´®µÄtoken
+class Word: public Token   //Â±ÃªÃŠÂ¶Â·Ã»Â¡Â¢Ã€Ã ÃÃÂ¡Â¢Â¹Ã˜Â¼Ã¼Ã—Ã–Â¡Â¢Ã—Ã–Â·Ã»Â´Â®ÂµÃ„token
 {
     private:
-        int lexeme;//ÓÃÀ´´ú±íÔÚ¸÷¸öÊı×éÖĞµÄÎ»ÖÃ
+        int lexeme;
+        string name;//Ã“ÃƒÃ€Â´Â´ÃºÂ±Ã­Ã”ÃšÂ¸Ã·Â¸Ã¶ÃŠÃ½Ã—Ã©Ã–ÃÂµÃ„ÃÂ»Ã–Ãƒ
     public:
-        Word(int t,int v):Token(t),lexeme(v){};
+        Word(int t,int v,string x):Token(t),lexeme(v),name(x){};
         int get_lexeme()
         {
             return lexeme;
         }
+        void set_lexeme(int x)
+        {
+            lexeme=x;
+        }
         string get_lexeme_str()
         {
-            if((this->get_tag())==ID) return idwords[lexeme].name;
+            /*if((this->get_tag())==ID) return idwords[lexeme].name;
             else if((this->get_tag())==TYPE) return typewords[lexeme];
             else if((this->get_tag())==KEY) return keywords[lexeme];
-            else return strwords[lexeme];
+            else return strwords[lexeme];*/
+                return name;
         }
 };
-class Char: public Token //char ÀàĞÍtoken
+class Char: public Token //char Ã€Ã ÃÃtoken
 {
 private:
-    int value;//Ö¸Õë
+    int value;//Ã–Â¸Ã•Ã«
 public:
     Char(int t,int v):Token(t),value(v){};
     int get_value()
@@ -103,10 +118,10 @@ public:
         return mychar[value];
     }
 };
-class temp_var:public Token  //±äÁ¿ÀàĞÍµÄtoken
+class temp_var:public Token  //Â±Ã¤ÃÂ¿Ã€Ã ÃÃÂµÃ„token
 {
 private:
-    int var;//Ö¸Õë
+    int var;//Ã–Â¸Ã•Ã«
 public:
     temp_var(int t,int v):Token(t),var(v){};
     int get_var_value()
@@ -119,30 +134,96 @@ public:
     }
 
 };
-struct q   //ËÄÔªÊ½
+bool find_const(Token *t);
+class Env{
+private:
+    int start;//è®°å½•å¼€å§‹ä½ç½®
+    vector<SYNBL> cur_var;
+public:
+    Env(int x)
+    {
+        start=x;
+    }
+    void make_Env(Token* t)//å£°æ˜æ¨¡å—ä½¿ç”¨
+    {   int i;
+        for(  i=0;i<cur_var.size();i++)
+        {
+         if(cur_var[i].name==t->get_lexeme_str())
+          {
+             t->set_lexeme(start+i);
+             grammer_error=false;
+             cout<<"muldefined_error"<<endl;
+             break;
+          }
+        }
+        if(i==cur_var.size())
+        {
+            SYNBL temp_synbl;
+            temp_synbl.name=t->get_lexeme_str();
+
+            cur_var.push_back(temp_synbl);
+            idwords.push_back(temp_synbl);
+            t->set_lexeme(idwords.size()-1);
+
+        }
+
+    }
+    int serach(string y)
+    {
+        for(int i=0;i<cur_var.size();i++)
+        {
+            if(cur_var[i].name==y)
+                return i+start;
+        }
+        return -1;
+    }
+    int serach_const(Token* t)
+    {
+        for(int i=0;i<cur_var.size();i++)
+        {
+            if(cur_var[i].name==t->get_lexeme_str())
+            {
+
+                if(idwords[i+start].cat==3)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+
+        }
+        return 0;
+    }
+};
+struct q   //Ã‹Ã„Ã”ÂªÃŠÂ½
 {
     string op;
     Token* temp_1;
     Token* temp_2;
     Token* res;
 };
-int find_key(string x);  //´Ê·¨·ÖÎöÊ±£¬µ±È·ÈÏÊ±Ò»´®×Ö·ûÊ±£¬Çø·Ö±êÊ¶·û¡¢ÀàĞÍ¡¢¹Ø¼ü×Ö¡¢×Ö·û´®£¬½¨Á¢token ²¢Ñ¹Èëtokenlist
-int get_keyindex(string x);//ÅĞ¶ÏÊÇ·ñÊÇ¹Ø¼ü×Ö£¬ÊÇ·µ»ØÎ»ÖÃ£¬·ñÔò·µ»Ø-1£»
+int find_key(string x);  //Â´ÃŠÂ·Â¨Â·Ã–ÃÃ¶ÃŠÂ±Â£Â¬ÂµÂ±ÃˆÂ·ÃˆÃÃŠÂ±Ã’Â»Â´Â®Ã—Ã–Â·Ã»ÃŠÂ±Â£Â¬Ã‡Ã¸Â·Ã–Â±ÃªÃŠÂ¶Â·Ã»Â¡Â¢Ã€Ã ÃÃÂ¡Â¢Â¹Ã˜Â¼Ã¼Ã—Ã–Â¡Â¢Ã—Ã–Â·Ã»Â´Â®Â£Â¬Â½Â¨ÃÂ¢token Â²Â¢Ã‘Â¹ÃˆÃ«tokenlist
+int get_keyindex(string x);//Ã…ÃÂ¶ÃÃŠÃ‡Â·Ã±ÃŠÃ‡Â¹Ã˜Â¼Ã¼Ã—Ã–Â£Â¬ÃŠÃ‡Â·ÂµÂ»Ã˜ÃÂ»Ã–ÃƒÂ£Â¬Â·Ã±Ã”Ã²Â·ÂµÂ»Ã˜-1Â£Â»
 int get_strindex(string x);
 int get_typeindex(string x);
 int get_idindex(string x);
 int get_charindex(string x);
 int str2num(string x);
 int str2real(string x);
-int get_tempindex(int x);//½¨Á¢ÁÙÊ±±äÁ¿µÄtoken
+int get_tempindex(int x);//Â½Â¨ÃÂ¢ÃÃ™ÃŠÂ±Â±Ã¤ÃÂ¿ÂµÃ„token
 int lexer();
-//È«¾Ö±äÁ¿
+//ÃˆÂ«Â¾Ã–Â±Ã¤ÃÂ¿
 extern vector<Token*> token_list;
-extern vector<q> QT;//ËÄÔªÊ½
-extern int c;// ¼ÇÂ¼µ±Ç°¶È¡¢¶Á¹ıµÄtoken¸öÊı
-extern stack<Token*> sem;//ÓïÒåÕ»
-int type_change(Token* t1,Token *t2);//ÎªÁÙÊ±±äÁ¿¸³ÀàĞÍÖµ
-bool startMath();
+extern vector<q> QT;//Ã‹Ã„Ã”ÂªÃŠÂ½
+extern int c;// Â¼Ã‡Ã‚Â¼ÂµÂ±Ã‡Â°Â¶ÃˆÂ¡Â¢Â¶ÃÂ¹Ã½ÂµÃ„tokenÂ¸Ã¶ÃŠÃ½
+extern stack<Token*> sem;//Ã“Ã¯Ã’Ã¥Ã•Â»
+extern vector<Env*> env;
+int type_change(Token* t1,Token *t2,int temp);//ÃÂªÃÃ™ÃŠÂ±Â±Ã¤ÃÂ¿Â¸Â³Ã€Ã ÃÃÃ–Âµ
+//int type_change_logic(Token* t1,Token *t2);
+void startMath();
 bool start_E();
 bool start_F();
 bool start_T();
@@ -151,16 +232,16 @@ bool start_A();
 bool start_B();
 bool act(int temp);
 bool act_2();
-/*********************±í´ïÊ½**************************/
+/*********************Â±Ã­Â´Ã¯ÃŠÂ½**************************/
 bool startLogic();
 bool act_logic(int temp);
-/********************Âß¼­±í´ïÊ½***********************/
-bool startWhile();
+/********************Ã‚ÃŸÂ¼Â­Â±Ã­Â´Ã¯ÃŠÂ½***********************/
+void startWhile();
 bool act_while_wh();
 bool act_while_do();
 bool act_while_we();
 /********************while****************************/
-bool startIf();
+void startIf();
 bool act_if_if();
 bool act_if_el();
 bool act_if_ie();
@@ -168,6 +249,12 @@ bool act_if_ie();
 bool startSuffix();
 bool act_suffix_in();
 bool act_suffix_de();
-/**********************ºó×º±í´ïÊ½**********************/
+/**********************ÂºÃ³Ã—ÂºÂ±Ã­Â´Ã¯ÃŠÂ½**********************/
+void GEQ_0();
+void GEQ_2();
 void q_out();
+void startFunBlo();
+/***********************ç¬¦å·è¡¨************************/
+bool find_var(Token *t);
+
 #endif // LEXER_H_INCLUDED

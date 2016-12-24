@@ -4,16 +4,17 @@ using namespace std;
 
 bool startLogic()
 {
-    //cout<<"logic"<<token_list[c]->get_tag()<<endl;
-    if(startMath())
+    startMath();
+    if(grammer_error)
     {
-        if(c<token_list.size())
+        if(c<token_list.size())//ÅÐ¶ÏcÔ½Ã»Ô½½ç
         {
             int temp=token_list[c]->get_tag();
         if(temp==EQ||temp==NE||temp==GE||temp==LE||temp=='>'||temp=='<')
         {
             c++;
-            if(startMath())
+            startMath();
+            if(grammer_error)
             {
                 if(!act_logic(temp))
                 {
@@ -21,6 +22,7 @@ bool startLogic()
                 }
                 else
                     return false;
+
             }
             else
                 return false;
@@ -64,11 +66,29 @@ bool act_logic(int temp)
         temp_q.op="<";
         break;
     }
-    temp_q.temp_2=sem.top();
-    sem.pop();
-    temp_q.temp_1=sem.top();
-    sem.pop();
-    temp_q.res=new temp_var(-1,get_tempindex(type_change(temp_q.temp_1,temp_q.temp_2)));
-    sem.push(temp_q.res);
-    QT.push_back(temp_q);
+temp_q.temp_2=sem.top();
+if(temp_q.temp_2->get_tag()==ID&&temp_q.temp_2->get_lexeme()==0) //token未定义
+{
+          if(!find_var(temp_q.temp_2))//  查找元素是否定义
+          {
+              cout<<"var_undefined"<<endl;
+              return false;
+          }
+
+}
+sem.pop();
+temp_q.temp_1=sem.top();
+if(temp_q.temp_1->get_tag()==ID&&temp_q.temp_1->get_lexeme()==0) //token未定义
+{
+         if(!find_var(temp_q.temp_1))//  查找元素是否定义
+          {
+              cout<<"var_undefined"<<endl;
+              return false;
+          }
+
+}
+sem.pop();
+temp_q.res=new temp_var(-1,get_tempindex(0));//都是bool型
+sem.push(temp_q.res);
+QT.push_back(temp_q);
 }

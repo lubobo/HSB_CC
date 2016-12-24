@@ -1,19 +1,19 @@
 # depslib dependency file v1.0
-1481533787 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
+1482090646 source:/home/lukbob/program/c++/HSB_CC/src/lexer.cpp
 	<iostream>
 	<string>
 	<stdio.h>
 	<math.h>
 	<vector>
-	"../headers/lexer.h"
+	"lexer.h"
 
-1482061380 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
+1482117398 /home/lukbob/program/c++/HSB_CC/headers/lexer.h
 	<iostream>
 	<string>
 	<vector>
 	<stack>
 
-1482048899 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
+1482112428 source:/home/lukbob/program/c++/HSB_CC/main/main.cpp
 	<iostream>
 	"../headers/lexer.h"
 	"../headers/functionAnalysis.h"
@@ -26,7 +26,7 @@
 	<vector>
 	"../headers/lexer.h"
 
-1482074773 source:/home/lukbob/program/c++/HSB_CC/src/functionAnalysis.cpp
+1482287351 source:/home/lukbob/program/c++/HSB_CC/src/functionAnalysis.cpp
 	<iostream>
 	<stack>
 	"../headers/lexer.h"
@@ -37,7 +37,7 @@
 	<fstream>
 	<stdlib.h>
 
-1482068296 source:/home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
+1482118791 source:/home/lukbob/program/c++/HSB_CC/src/gra_analyze.cpp
 	<iostream>
 	"../headers/lexer.h"
 	<stack>
@@ -50,19 +50,178 @@
 	<stack>
 	<vector>
 
-1482074431 source:/home/lukbob/program/c++/HSB_CC/src/logic_expression.cpp
+1482117437 source:/home/lukbob/program/c++/HSB_CC/src/logic_expression.cpp
 	<iostream>
 	"../headers/lexer.h"
 
-1482074431 source:/home/lukbob/program/c++/HSB_CC/src/while.cpp
+1482117437 source:/home/lukbob/program/c++/HSB_CC/src/while.cpp
 	<iostream>
 	"../headers/lexer.h"
 
-1482074431 source:/home/lukbob/program/c++/HSB_CC/src/if.cpp
+1482119039 source:/home/lukbob/program/c++/HSB_CC/src/if.cpp
 	<iostream>
 	"../headers/lexer.h"
 
-1482045607 source:/home/lukbob/program/c++/HSB_CC/src/suffix.cpp
+1482117437 source:/home/lukbob/program/c++/HSB_CC/src/suffix.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482551527 source:d:\cb程序\hsb_cc\main\main.cpp
+	<iostream>
+	"../headers/lexer.h"
+	"../headers/functionAnalysis.h"
+
+1482550317 d:\cb程序\hsb_cc\headers\lexer.h
+	<iostream>
+	<string>
+	<vector>
+	<stack>
+
+1482258662 d:\cb程序\hsb_cc\headers\functionanalysis.h
+	<iostream>
+	<cstring>
+	<fstream>
+	<stdlib.h>
+
+1482550422 source:d:\cb程序\hsb_cc\src\functionanalysis.cpp
+	<iostream>
+	<stack>
+	"../headers/lexer.h"
+
+1482551345 source:d:\cb程序\hsb_cc\src\gra_analyze.cpp
+	<iostream>
+	"../headers/lexer.h"
+	<stack>
+	<vector>
+	<math.h>
+
+1482456297 source:d:\cb程序\hsb_cc\src\if.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482463260 source:d:\cb程序\hsb_cc\src\logic_expression.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482258662 source:d:\cb程序\hsb_cc\src\suffix.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482421855 source:d:\cb程序\hsb_cc\src\while.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482461871 source:d:\cb程序\hsb_cc\src\lexer.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<math.h>
+	<vector>
+	"../headers/lexer.h"
+
+1482551527 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\main\main.cpp
+	<iostream>
+	"../headers/lexer.h"
+	"../headers/functionAnalysis.h"
+
+1482550317 c:\users\陆国波\desktop\hsb_cc\hsb_cc\headers\lexer.h
+	<iostream>
+	<string>
+	<vector>
+	<stack>
+
+1482258662 c:\users\陆国波\desktop\hsb_cc\hsb_cc\headers\functionanalysis.h
+	<iostream>
+	<cstring>
+	<fstream>
+	<stdlib.h>
+
+1482550422 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\functionanalysis.cpp
+	<iostream>
+	<stack>
+	"../headers/lexer.h"
+
+1482552100 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\gra_analyze.cpp
+	<iostream>
+	"../headers/lexer.h"
+	<stack>
+	<vector>
+	<math.h>
+
+1482456297 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\if.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482461871 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\lexer.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<math.h>
+	<vector>
+	"../headers/lexer.h"
+
+1482463260 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\logic_expression.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482258662 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\suffix.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482421855 source:c:\users\陆国波\desktop\hsb_cc\hsb_cc\src\while.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482551527 source:d:\hsb_cc\main\main.cpp
+	<iostream>
+	"../headers/lexer.h"
+	"../headers/functionAnalysis.h"
+
+1482550317 d:\hsb_cc\headers\lexer.h
+	<iostream>
+	<string>
+	<vector>
+	<stack>
+
+1482258662 d:\hsb_cc\headers\functionanalysis.h
+	<iostream>
+	<cstring>
+	<fstream>
+	<stdlib.h>
+
+1482550422 source:d:\hsb_cc\src\functionanalysis.cpp
+	<iostream>
+	<stack>
+	"../headers/lexer.h"
+
+1482552100 source:d:\hsb_cc\src\gra_analyze.cpp
+	<iostream>
+	"../headers/lexer.h"
+	<stack>
+	<vector>
+	<math.h>
+
+1482456297 source:d:\hsb_cc\src\if.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482461871 source:d:\hsb_cc\src\lexer.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<math.h>
+	<vector>
+	"../headers/lexer.h"
+
+1482463260 source:d:\hsb_cc\src\logic_expression.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482258662 source:d:\hsb_cc\src\suffix.cpp
+	<iostream>
+	"../headers/lexer.h"
+
+1482421855 source:d:\hsb_cc\src\while.cpp
 	<iostream>
 	"../headers/lexer.h"
 

@@ -1,100 +1,103 @@
 #include<iostream>
 #include"../headers/lexer.h"
 using namespace std;
-bool startIf()
+void startIf()
 {
-    bool startFunBlo();
-    //cout<<"if"<<token_list[c]->get_tag()<<endl;
+
     if(c<token_list.size())
     {
-        int temp=token_list[c]->get_tag();
-        //cout<<token_list[c]->get_lexeme_str()<<endl;
-        if(temp==KEY&&token_list[c]->get_lexeme_str()=="if")
+
+        if(token_list[c]->get_tag()==KEY&&token_list[c]->get_lexeme_str()=="if")
         {
-            //cout<<"1"<<endl;
+
             c++;
             if(c<token_list.size()&&token_list[c]->get_tag()=='(')
             {
-                //cout<<"2"<<endl;
                 c++;
+
                 if(startLogic())
                 {
-                    //cout<<"3"<<endl;
                     if(c<token_list.size()&&token_list[c]->get_tag()==')')
                     {
-                        //cout<<"4"<<endl;
                         c++;
                         if(!act_if_if())
                         {
-                            return false;
+                            grammer_error=false;
                         }
                         if(c<token_list.size()&&token_list[c]->get_tag()=='{')
                         {
+                            env.push_back(new Env(idwords.size()));
                             c++;
-                            if(startFunBlo())//startFun
+                            if(grammer_error)
+                            {
+                                startFunBlo();
+                            }
+                            if(grammer_error)//startFun
                             {
                                 if(c<token_list.size()&&token_list[c]->get_tag()=='}')
                                 {
+                                    env.pop_back();
                                     c++;
                                     if(c<token_list.size()&&token_list[c]->get_tag()==KEY&&token_list[c]->get_lexeme_str()=="else")
                                     {
                                         c++;
                                         if(!act_if_el())
                                         {
-                                            return false;
+                                            grammer_error=false;
                                         }
                                         if(c<token_list.size()&&token_list[c]->get_tag()=='{')
                                         {
+                                            env.push_back(new Env(idwords.size()));
                                             c++;
-                                            if(startFunBlo())//startFun
+                                            startFunBlo();
+                                            if(grammer_error)//startFun
                                             {
                                                 if(c<token_list.size()&&token_list[c]->get_tag()=='}')
                                                 {
+                                                    env.pop_back();
                                                     c++;
-                                                    if(!act_if_ie)
+                                                    if(!act_if_ie())
                                                     {
-                                                        return false;
+                                                        grammer_error=false;
                                                     }
-                                                    return true;
                                                 }
-                                                else {cout<<"IF_error"<<endl;return false;}
+                                                else {cout<<"IF_error11"<<endl;grammer_error=false;}
                                             }
-                                            else {cout<<"IF_error"<<endl;return false;}
+                                            else {cout<<"IF_error10"<<endl;grammer_error=false;}
                                         }
-                                        else {cout<<"IF_error"<<endl;return false;}
+                                        else {cout<<"IF_error9"<<endl;grammer_error=false;}
                                     }
                                     else
                                     {
                                         if(!act_if_ie())
                                         {
-                                            return false;
+                                            grammer_error=false;
                                         }
-                                        return true;
                                     }
 
                                 }
-                                else {cout<<"IF_error"<<endl;return false;}
+                                else {cout<<"IF_error8"<<endl;grammer_error=false;}
 
                             }
-                            else {cout<<"IF_error"<<endl;return false;}
+                            else {cout<<"IF_error7"<<endl;grammer_error=false;}
 
                         }
-                        else {cout<<"IF_error"<<endl;return false;}
+                        else {cout<<"IF_error6"<<endl;grammer_error=false;}
 
                     }
-                    else {cout<<"IF_error"<<endl;return false;}
+                    else {cout<<"IF_error5"<<endl;grammer_error=false;}
 
                 }
-                else {cout<<"IF_error"<<endl;return false;}
+                else {cout<<"IF_error4"<<endl;grammer_error=false;}
 
             }
-            else {cout<<"IF_error"<<endl;return false;}
+            else {cout<<"IF_error3"<<endl;grammer_error=false;}
 
         }
-        else {cout<<"IF_error"<<endl;return false;}
+        else {cout<<"IF_error2"<<endl;grammer_error= false;}
 
     }
-    else {cout<<"IF_error"<<endl;return false;}
+    else {cout<<"IF_error1"<<endl;grammer_error=false;}
 }
 
 bool act_if_if()

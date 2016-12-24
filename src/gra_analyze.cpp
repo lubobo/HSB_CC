@@ -4,7 +4,6 @@
 #include<vector>
 #include<math.h>
 using namespace std;
-//stack<Token*> sem;
 int send_value(int x)
 {
     int temp;
@@ -15,6 +14,7 @@ int send_value(int x)
         break;
     case NUM:
     case REAL:
+    case CHAR:
         temp=0;
         break;
     case 43:
@@ -43,38 +43,20 @@ int send_value(int x)
     return temp;
 }
 
-bool startMath()
+void startMath()
 {
-
     if(start_E())
    {
-      // if(c==token_list.size())
-     //  {
-            //cout<<"Exp_success"<<endl;
-            /*vector<q>::iterator it0=QT.begin();
-            cout<<"************"<<"ËÄÔªÊ½"<<"***************"<<endl;
-                 for(it0=QT.begin();it0!=QT.end();it0++)
-               {
-                cout<<"("<<(*it0).op<<","<<(*it0).temp_1<<","<<(*it0).temp_2<<","<<(*it0).res<<")"<<endl;
-               }*/
 
-        //}
-        /*else
-        {
-            cout<<"wrong1"<<endl;
-        }*/
-      return true;
    }
    else
    {
-     //cout<<"wrong"<<endl;
-     return false;
+     grammer_error=false;
    }
 
 }
 bool start_E()
 {
-    //cout<<"startMath1"<<endl;
    if(!start_T())
   {
    return false;
@@ -96,7 +78,6 @@ bool start_E()
 }
 bool start_T()
 {
-    //cout<<"startMath2"<<endl;
     if(!start_F())
     {
        return false;
@@ -119,8 +100,8 @@ bool start_T()
 }
 bool  start_F()
 {
-    //cout<<"startMath3"<<endl;
-    if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==0)//Èç¹ûÊÇÊı×Ö
+
+    if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==0)//ÃˆÃ§Â¹Ã»ÃŠÃ‡ÃŠÃ½Ã—Ã–
     {
            sem.push(token_list[c]);
            c++;
@@ -161,7 +142,7 @@ bool  start_F()
 }
 bool start_A()
 {
-    //cout<<"startMath4"<<endl;
+
     if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==5)
     {
          sem.push(token_list[c]);
@@ -179,7 +160,6 @@ bool start_A()
 }
 bool start_B()
 {
-    //cout<<"startMath5"<<endl;
     if(c<=token_list.size()-1&&send_value(token_list[c]->get_tag())==6)
     {
         c++;
@@ -205,7 +185,7 @@ bool start_B()
         return true;
     }
 }
-bool act(int temp)                  //´æ´¢ËÄÔªÊ½
+bool act(int temp)                  //Â´Ã¦Â´Â¢Ã‹Ã„Ã”ÂªÃŠÂ½
 {
     q temp_q;
     if(temp==43)
@@ -219,14 +199,33 @@ bool act(int temp)                  //´æ´¢ËÄÔªÊ½
     if(!sem.empty())
     {
       temp_q.temp_2=sem.top();
+      if(temp_q.temp_2->get_tag()==ID&&temp_q.temp_2->get_lexeme()==0) //tokenæœªå®šä¹‰
+      {
+          if(!find_var(temp_q.temp_2))//  æŸ¥æ‰¾å…ƒç´ æ˜¯å¦å®šä¹‰
+          {
+              cout<<"var_undefined"<<endl;
+              grammer_error=false;
+              return false;
+          }
+
+      }
       sem.pop();
     if(sem.empty())
     {
         return false;
     }
-    temp_q.temp_1=sem.top();//tempµÄÀàĞÍÓÉÕ»ÀïµÄÔªËØÀàĞÍ¾ö¶¨
+    temp_q.temp_1=sem.top();
+    if(temp_q.temp_1->get_tag()==ID&&temp_q.temp_1->get_lexeme()==0) //tokenæœªå®šä¹‰
+    {
+         if(!find_var(temp_q.temp_1))//  æŸ¥æ‰¾å…ƒç´ æ˜¯å¦å®šä¹‰
+          {
+              cout<<"var_undefined"<<endl;
+              return false;
+          }
+
+    }
     sem.pop();
-    int result=type_change(temp_q.temp_1,temp_q.temp_2);
+    int result=type_change(temp_q.temp_1,temp_q.temp_2,temp);
     temp_q.res=new temp_var(-1,get_tempindex(result));
     sem.push(temp_q.res);
     QT.push_back(temp_q);
@@ -256,7 +255,7 @@ bool act_2()
         return true;
 
 }
-void q_out()                    //ÏÔÊ¾ËÄÔªÊ½
+void q_out()                    //ÃÃ”ÃŠÂ¾Ã‹Ã„Ã”ÂªÃŠÂ½
 {
     for(int i=0;i<QT.size();i++)
     {
@@ -305,7 +304,7 @@ void q_out()                    //ÏÔÊ¾ËÄÔªÊ½
         cout<<endl;
     }
 }
-int  get_tempindex(int x)                   //´æ·ûºÅ±í
+int  get_tempindex(int x)                   //Â´Ã¦Â·Ã»ÂºÃ…Â±Ã­
 {
     string  temp_v="t",temp_a;
     int i=temp.size();
@@ -324,39 +323,97 @@ int  get_tempindex(int x)                   //´æ·ûºÅ±í
     }
      SYNBL s;
      s.name=temp_v;
-     s.cat=4;         //ÁÙÊ±±äÁ¿;
-     s.index=0;       //indexÃ»ÓÃ
-     s.type=x;        //typÀàĞÍ
+     s.cat=1;
+     s.type=x;
      temp.push_back(s);
      return temp.size()-1;
 }
-int type_change(Token* t1,Token* t2)
+int type_change(Token* t1,Token* t2,int temp0)
 {
    int type_1,type_2,type;
-   if(t1->get_tag()==REAL)
+
+   if(temp0==43||temp0==45||temp0==42)//+ä¸-
    {
-       type_1=3;      //ÊµÊıÀàĞÍ
-   }
-   else if(t1->get_tag()==NUM)
-   {
-       type_1=2;//  ÕûÊıÀàĞÍ
-   }
-   else if(t1->get_tag()==ID)
-   {
-       type_1=idwords[t1->get_lexeme()].type;    //±êÊ¶·û
-   }
-   if(t2->get_tag()==REAL)
-   {
-       type_2=3;      //ÊµÊıÀàĞÍ
-   }
-   else if(t2->get_tag()==NUM)
-   {
-       type_2=2;//  ÕûÊıÀàĞÍ
-   }
-   else if(t2->get_tag()==ID)
-   {
-       type_2=idwords[t2->get_lexeme()].type;    //±êÊ¶·û
-   }
-   type=max(type_1,type_2);
-   return type;
+        if(t1->get_tag()==REAL)
+        {
+        type_1=3;      //ÃŠÂµÃŠÃ½Ã€Ã ÃÃ
+        }
+        else if(t1->get_tag()==NUM)
+        {
+        type_1=2;//  Ã•Ã»ÃŠÃ½Ã€Ã ÃÃ
+        }
+        else if(t1->get_tag()==CHAR)
+        {
+            type_1=1;
+        }
+        else if(t1->get_tag()==ID)
+        {
+        type_1=idwords[t1->get_lexeme()].type;    //Â±ÃªÃŠÂ¶Â·Ã»
+        }
+        else if(t1->get_tag()==-1)
+        {
+            type_1=temp[t1->get_var_value()].type;
+
+        }
+        if(t2->get_tag()==REAL)
+        {
+        type_2=3;      //ÃŠÂµÃŠÃ½Ã€Ã ÃÃ
+        }
+        else if(t2->get_tag()==NUM)
+        {
+        type_2=2;//  Ã•Ã»ÃŠÃ½Ã€Ã ÃÃ
+        }
+        else if(t2-> get_tag()==CHAR)
+        {
+            type_2=1;
+        }
+        else if(t2->get_tag()==ID)
+        {
+        type_2=idwords[t2->get_lexeme()].type;    //Â±ÃªÃŠÂ¶Â·Ã»
+        }
+        else if(t2->get_tag()==-1)
+        {
+            type_2=temp[t2->get_var_value()].type;
+
+        }
+         type=max(type_1,type_2);
+           return type;
+    }
+    else
+    {
+        return 3;//ä¹˜é™¤æ—¶éƒ½ç”¨real
+    }
 }
+ bool find_var(Token *t) //ä½¿ç”¨æ ‡è¯†ç¬¦çš„å‡½æ•°
+{
+        int i;
+        for(i=env.size()-1;i>=0;i--)
+        {
+            int  serach_res=env[i]->serach(t->get_lexeme_str());
+            if(serach_res!=-1)
+            {
+                t->set_lexeme(serach_res);
+                return true;
+            }
+        }
+        return false;
+
+}
+bool find_const(Token *t)
+{
+        int i;
+        for(i=env.size()-1;i>=0;i--)
+        {
+
+            int  serach_res=env[i]->serach_const(t);
+
+            if(serach_res!=0)
+            {
+                return true;
+            }
+        }
+        return false;
+}
+
+
+

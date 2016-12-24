@@ -5,6 +5,8 @@
 #include<vector>
 #include"../headers/lexer.h"
 using namespace std;
+
+//int level=-1;
 struct route_node
 {
     char c;
@@ -17,14 +19,15 @@ struct record
 };
 record state[38];
 route_node s1[17],s2[4],s3[5],s4[3],s5[3],s6[3],s7[4],s8[3],s9[2],s10[3],s11[2],s12[3],s13[2],s14[2],s15[2],s16[2],s17[2],s18[3],s19[3],s20[3],s21[4],s22[4],s23[3],s24[3],s25[2],s26[2],s27[2],s28[2],s29[2],s30[2],s31[2],s32[2],s33[2],s34[2],s35[5],s36[3],s37[3];
-string keywords[k_w_len]={"main","void","if","else","for","while","do","break","continue","return"};
+string keywords[k_w_len]={"void","if","else","for","while","do","break","continue","return","const"};
 string Tag_Str[]={
     "NUM","REAL","ID","AND","OR","EQ","NE","GE","LE","STR","CHAR","TYPE","KEY","ADD_A","ADD_E","MIN_M","MIN_E","MUL_E","DIV_E","IF","ELSE","FOR","WHILE","DO","BREAK","CONTINUE","RETURN"
 };
 vector<SYNBL> idwords;
 vector<string> strwords;
 vector<string> mychar;
-string typewords[t_w_len]={"int","real","char","const"};
+string typewords[t_w_len]={"bool","char","int","real"};
+int type_size[4]={1,1,4,8};
 vector<Token*> token_list;
 vector<SYNBL> temp;
 vector<double> number;
@@ -203,8 +206,18 @@ int lexer()
     int state=1,state_before;
     int line=1;
     string temp_str="";
+    /*SYNBL s;
+    s.cat=0;
+    s.level=0;
+    s.name="main";
+    s.offset=0;
+    idwords.push_back(s);*/
   while((ch=getc(fp))!=EOF)
   {
+
+
+
+
       if(state==1)
       {
         if(ch=='\n'||ch==' '||ch=='\t')
@@ -225,11 +238,11 @@ int lexer()
     if(state_before==1||state_before==2)
      {
           if((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z'))
-      {
+        {
           ch='0';
-      }
+        }
      }
-    state=check_state(state,ch);
+     state=check_state(state,ch);
      if(state)
       {
          if(state==-1)
@@ -241,12 +254,12 @@ int lexer()
       }
       else
       {
-         int code=state_to_code(state_before,temp_str);
+           int code=state_to_code(state_before,temp_str);
            if(code==-1)
-        {
-        cout<<"No. "<<line<<"line"<<": "<<"error"<<endl;
-         return 0;
-        }
+          {
+            cout<<"No. "<<line<<"line"<<": "<<"error"<<endl;
+            return 0;
+          }
           if(code<=9)
           {
                string temp_string=int2string(code);
@@ -257,16 +270,15 @@ int lexer()
               //cout<<"<"<<temp_str<<","<<code<<">"<<endl;
           }
 
-         if((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z'))
+          if((ch>='a'&&ch<='z')||(ch>='A'&&ch<='Z'))
            {
-          ch='0';
+              ch='0';
            }
           if(ch!=' '&&ch!='\t'&&ch!='\n')
           {
-
-          state=check_state(1,ch);
-          temp_str="";
-          temp_str+=temp_ch;
+            state=check_state(1,ch);
+            temp_str="";
+            temp_str+=temp_ch;
           }
           else
           {
@@ -372,7 +384,7 @@ case 16:
     code=CHAR;//字符
     break;
 case  17:
-    token_list.push_back(new Word(STR,get_strindex(temp_s)));
+    token_list.push_back(new Word(STR,get_strindex(temp_s),temp_s));
     code=STR;//字符串
     break;
 case 21:
@@ -398,6 +410,21 @@ case 24:
 case 25:
     temp_x=(temp_s[0]-'0')+48;
     token_list.push_back(new Token(temp_x));
+   /* if(temp_s=="{")
+    {
+        level++;
+        Env* temp_env=new Env(level);
+        env.push(temp_env);
+
+
+    }
+    else if(temp_s=="}")
+    {
+
+        env.pop();
+        level--;
+
+    }*/
     code=temp_x;//任意单字符
     break;
 case 26:
@@ -450,20 +477,20 @@ int find_key(string x)
         temp=get_typeindex(x);
         if(temp==-1)
         {
-            temp=get_idindex(x);
-            token_list.push_back(new Word(ID,temp));
+           // temp=env.top()->make_Env(x);
+            token_list.push_back(new Word(ID,0,x));
             return ID;
 
         }
         else
         {
-            token_list.push_back(new Word(TYPE,temp));
+            token_list.push_back(new Word(TYPE,temp,x));
             return TYPE;
         }
     }
     else
     {
-        token_list.push_back(new Word(KEY,temp));
+        token_list.push_back(new Word(KEY,temp,x));
         return KEY;
     }
 
@@ -490,7 +517,7 @@ int get_typeindex(string x)
     }
     return -1;
 }
-int get_idindex(string x)
+/*int get_idindex(string x)
 {
     for(int i=0;i<idwords.size();i++)
     {
@@ -502,7 +529,7 @@ int get_idindex(string x)
         idwords.push_back(temp_synbl);
         return idwords.size()-1;
 
-}
+}*/
 int get_strindex(string x)
 {
 
