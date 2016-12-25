@@ -18,7 +18,8 @@ struct SYNBL  //·ûºÅ±í
     int type=-1;//0:bool,1:char,2:int,3:real
     int cat=-1; //0:º¯Êý¡£1£º±äÁ¿ 3£º³£Á¿ 4:ÁÙÊ±±äÁ¿
     int offset=0;//Æ«ÒÆµØÖ·
-    int index=-1;// µ±×Ö·û±íµÄÀàÐÍÊÇ³£Á¿Ê±£¬offsetÎª-1£¬indexÎª1Ê±´ú±íÖ¸ÏòvectorÖÐµÄnumber,indexÎª2£¬Ö¸Ïòmychar
+    int index=-1;
+    int active;// µ±×Ö·û±íµÄÀàÐÍÊÇ³£Á¿Ê±£¬offsetÎª-1£¬indexÎª1Ê±´ú±íÖ¸ÏòvectorÖÐµÄnumber,indexÎª2£¬Ö¸Ïòmychar
     /*offset    index        º¬Òå
      -1         1           Ö¸ÏòvectorÖÐµÄnumber
      -1         2           Ö¸Ïòmychar
@@ -58,6 +59,7 @@ class Token     //ËùÓÐtokenÀàÐÍµÄ¸¸Àà£¬µ¥¸ö×Ö·ûµÄtagÖ
         virtual string  get_var(){}
         virtual int get_var_value(){}
         virtual void set_lexeme(int x) {}
+        int active;
 };
 class Num: public Token//  ÊÇÕûÊý£¬Ð¡ÊýµÄtoken
 {

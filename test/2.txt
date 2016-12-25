@@ -1,10 +1,5 @@
 void  main (){
-   int a=1;
-   int b=2;
-   int e=3;
-   int f=4;
-   int g=5;
-   int h=0;
-   a=a+b+e;
-   b=a-b-e;
+	int a=1;
+	int c=9;
+	c=a+1;
 }
